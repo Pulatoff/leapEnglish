@@ -60,8 +60,9 @@ const User = sequelize.define(
   }
 );
 
-User.beforeCreate(async (user, options) => {
+User.addHook("beforeSave", async (user, options) => {
   const hashedPassword = await bcrypt.hash(user.password, 12);
   user.password = hashedPassword;
 });
+
 module.exports = User;
